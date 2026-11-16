@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#bf0f6b">
+<title>BroRaa Messenger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@500;600&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+<div id="login" class="overlay">
+  <div class="card">
+    <h2>Welcome</h2>
+    <p>Sign in to continue</p>
+    <input id="email" type="email" placeholder="Email" autocomplete="username">
+    <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
+    <p id="login-err" class="err hidden">Incorrect email or password.</p>
+    <div class="row"><button id="btn-login" class="btn">Sign In</button></div>
+  </div>
+</div>
+
+<div id="who" class="overlay hidden">
+  <div class="card" id="who-1">
+    <h2>Who are you?</h2>
+    <p>Select your identity to start messaging</p>
+    <div class="row"><button id="btn-bro" class="btn">Bro</button><button id="btn-raa" class="btn">Raa</button></div>
+  </div>
+  <div class="card hidden" id="who-2">
+    <h2 id="who-title">Welcome</h2>
+    <p>Enter your password to continue</p>
+    <input id="auth-pass" type="password" placeholder="Password" autocomplete="off">
+    <p id="auth-err" class="err hidden">Incorrect password. Try again.</p>
+    <div class="row"><button id="btn-back" class="btn ghost">Back</button><button id="btn-auth" class="btn">Login</button></div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <header>
+    <div class="who">
+      <div class="avatar" id="avatar">?</div>
+      <div class="nm"><h3><span id="name">...</span><span id="mood" class="mood hidden" title=""></span></h3><span id="status" class="off">offline</span></div>
+      <div id="hb" class="hb" title="Touch together"></div>
+    </div>
+    <div class="acts">
+      <button id="btn-search" title="Search"><ion-icon name="search-outline"></ion-icon></button>
+      <button id="btn-audio-call" title="Audio call"><ion-icon name="call-outline"></ion-icon></button>
+      <button id="btn-video-call" title="Video call"><ion-icon name="videocam-outline"></ion-icon></button>
+      <div class="dd">
+        <button id="btn-menu" title="Menu"><ion-icon name="ellipsis-vertical"></ion-icon></button>
+        <div id="menu" class="menu hidden">
+          <button id="btn-touch">Touch together 💞</button>
+          <button id="btn-mood">Set my mood 🥰</button>
+          <button id="btn-note">Send a sweet note 💌</button>
+          <button id="btn-ask">Love question 💭</button>
+          <button id="btn-vb">Chat with Virtual Bro</button>
+          <button id="btn-wall">Change wallpaper</button>
+          <button id="btn-test">Test call servers</button>
+          <button id="btn-clear">Clear cache</button>
+          <button id="btn-logout" class="danger">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="sbar" class="sbar hidden">
+    <input id="sinput" type="text" placeholder="Search messages...">
+    <span id="scount">0/0</span>
+    <button id="sup"><ion-icon name="chevron-up-outline"></ion-icon></button>
+    <button id="sdown"><ion-icon name="chevron-down-outline"></ion-icon></button>
+    <button id="sclose"><ion-icon name="close-outline"></ion-icon></button>
+  </div>
+  <div id="pinned" class="pinned hidden"><ion-icon name="pin"></ion-icon><span id="pinned-text"></span><button id="btn-unpin">✕</button></div>
+
+  <main id="chat">
+    <button id="btn-older" class="older hidden">Load older messages</button>
+    <div class="sys">Secured end-to-end for Bro &amp; Raa 🔒</div>
+  </main>
+  <div id="unread" class="unread hidden">↓ Jump to unread</div>
+
+  <div id="reply" class="reply hidden"><div class="rc"><b id="reply-who"></b><span id="reply-text"></span></div><button id="btn-cancel">✕</button></div>
+  <div id="prog" class="prog hidden"><span id="prog-text">Uploading...</span><progress id="prog-bar" value="0" max="100"></progress></div>
+
+  <footer>
+    <div id="frow" class="frow">
+      <button id="btn-attach" title="Attach photo or file"><ion-icon name="attach-outline"></ion-icon></button>
+      <button id="btn-love" title="Send a beat, hug or love"><span class="lip">💋</span></button>
+      <input type="file" id="file" class="hidden">
+      <input type="color" id="wall" class="hidden">
+      <input id="msg" type="text" placeholder="Type a message..." autocomplete="off">
+      <button id="btn-mic" title="Record voice"><ion-icon name="mic-outline"></ion-icon></button>
+      <button id="btn-send" class="hidden" title="Send"><ion-icon name="send"></ion-icon></button>
+    </div>
+    <div id="rec" class="rec hidden">
+      <button id="rec-cancel" title="Discard"><ion-icon name="trash-outline"></ion-icon></button>
+      <span class="rdot"></span><span id="rec-timer">0:00</span><span class="rhint">Recording voice message…</span>
+      <button id="rec-send" title="Send"><ion-icon name="send"></ion-icon></button>
+    </div>
+  </footer>
+</div>
+
+<div id="touchpad" class="touchpad hidden">
+  <div class="tp-text">Touch the screen 💞<br><small>Your finger shows up on their phone, live</small></div>
+  <button id="pad-close">✕</button>
+</div>
+
+<div id="pv" class="overlay hidden">
+  <div class="card pvcard">
+    <img id="pv-img" alt="Preview">
+    <input id="pv-cap" type="text" placeholder="Add a caption (optional)" autocomplete="off">
+    <div class="row"><button id="pv-cancel" class="btn ghost">Cancel</button><button id="pv-send" class="btn">Send</button></div>
+  </div>
+</div>
+
+<div id="vb" class="overlay hidden vbo">
+  <div class="vbh"><h3>Virtual Bro</h3><div><button id="vb-full"><ion-icon name="expand"></ion-icon></button><button id="vb-close"><ion-icon name="close"></ion-icon></button></div></div>
+  <iframe id="vb-frame" src="" title="Virtual Bro"></iframe>
+</div>
+
+<div id="call-screen" class="overlay hidden callo">
+  <div class="call-card">
+    <div id="call-status-text" class="call-status">Calling...</div>
+    <div id="call-duration" class="call-duration hidden">00:00</div>
+    <div class="video-grid" id="video-grid">
+      <div class="call-avatar-wrap">
+        <div class="call-avatar"><span class="wave"></span><span class="wave"></span><span class="wave"></span><b id="call-avatar-letter">?</b></div>
+        <div class="call-name" id="call-name"></div>
+      </div>
+      <video id="remote-video" autoplay playsinline></video>
+      <video id="local-video" autoplay playsinline muted></video>
+    </div>
+    <div class="call-controls">
+      <button id="btn-toggle-mic" class="call-btn"><ion-icon name="mic"></ion-icon></button>
+      <button id="btn-toggle-video" class="call-btn"><ion-icon name="videocam"></ion-icon></button>
+      <button id="btn-switch-cam" class="call-btn"><ion-icon name="camera-reverse"></ion-icon></button>
+      <button id="btn-toggle-speaker" class="call-btn"><ion-icon name="volume-high"></ion-icon></button>
+      <button id="btn-fullscreen-call" class="call-btn"><ion-icon name="expand"></ion-icon></button>
+      <button id="btn-call-beat" class="call-btn beat" title="Send a beat">💋</button>
+      <button id="btn-accept-call" class="call-btn accept hidden"><ion-icon name="checkmark-circle"></ion-icon></button>
+      <button id="btn-hangup-call" class="call-btn hangup"><ion-icon name="close-circle"></ion-icon></button>
+    </div>
+  </div>
+</div>
+
+<div id="viewer" class="overlay hidden">
+  <button id="btn-dl" class="vbtn" style="right:78px" title="Download"><ion-icon name="download-outline"></ion-icon></button>
+  <button id="btn-vclose" class="vbtn" title="Close"><ion-icon name="close"></ion-icon></button>
+  <img id="viewer-img" alt="Photo">
+</div>
+
+<div id="picker" class="picker hidden"></div>
+<div id="nudges" class="nudges hidden"></div>
+<div id="moods" class="nudges moods hidden"></div>
+<div id="glass" class="glass" aria-hidden="true"></div>
+<div id="toast" class="toast hidden"></div>
+<script type="module" src="script.js"></script>
+</body>
+</html>
